@@ -1,17 +1,39 @@
 import Post from "@/components/post";
-import { currentUser } from "@clerk/nextjs/server";
-import Country from "@/components/country";
-import { clerkClient } from "@clerk/nextjs/server";
+import { currentUser, clerkClient } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { client } from "@/lib/mongodb";
+import Details from "@/components/detailsForm";
+
 export default async function Home() {
   const user = await currentUser();
   const response = await clerkClient.users.getUserList();
-  console.log(response);
+  const details = await CheckForDetails(
+    response?.data[0].primaryEmailAddressId
+  );
+
   if (!user) {
-    return <Country />;
+    redirect("/sign-up");
+  }
+  if (!details) {
+    return <Details />;
   }
   return (
     <>
       <Post />
     </>
   );
+}
+
+type params = string | null;
+async function CheckForDetails(id: params) {
+  await client.connect();
+  const database = client.db("referral");
+  const collection = await database
+    .collection("users")
+    .find({ emailId: id })
+    .toArray();
+  await client.close();
+  console.log(collection);
+  if (collection.length) return true;
+  return false;
 }

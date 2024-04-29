@@ -1,13 +1,16 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { Button } from "./ui/button";
 import { SignOutButton, SignInButton } from "@clerk/nextjs";
+import Link from "next/link";
 export default async function Nav() {
   const user = await currentUser();
   return (
     <div className="bg-white shadow-md h-12 flex justify-evenly items-center">
-      <span>Home</span>
-      <span>Home</span>
-      <span>Chat</span>
+      <Link href={"../"}>
+        <Button variant={"ghost"}>Home</Button>
+      </Link>
+      <Button variant={"ghost"}>Home</Button>
+      <Button variant={"ghost"}>Chat</Button>
       {user ? (
         <SignOutButton>
           <img
@@ -17,7 +20,7 @@ export default async function Nav() {
         </SignOutButton>
       ) : (
         <SignInButton>
-          <Button variant={"secondary"}>Login</Button>
+          <Button>Login</Button>
         </SignInButton>
       )}
     </div>
