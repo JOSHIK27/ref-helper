@@ -80,7 +80,9 @@ interface propsTypes {
 export function SelectDemo(props: propsTypes) {
   const { arr } = props;
   const temp = arr.map((item: string) => (
-    <SelectItem value={item}>{item}</SelectItem>
+    <SelectItem key={item} value={item}>
+      {item}
+    </SelectItem>
   ));
   return (
     <Select>
