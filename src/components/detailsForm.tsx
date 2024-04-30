@@ -6,22 +6,17 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { handleSubmission } from "@/actions";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
@@ -52,22 +47,13 @@ const fields = [
 const ed = ["Education Level", "Bachelors", "Masters"];
 
 export default function Details() {
-  const router = useRouter();
+  const [formData, setFormData] = React.useState(null);
+
   return (
     <div className="w-[500px] bg-white shadow-md rounded-md mx-auto mt-12">
       <div className="text-center font-semibold text-lg pt-4">Details</div>
       <div className="flex justify-center px-8">
-        <ProfileForm />
-      </div>
-      <div className="flex justify-center my-8">
-        <Button
-          onClick={() => {
-            router.push("../sign-in");
-          }}
-          className="w-[430px] mb-4"
-        >
-          Submit
-        </Button>
+        <ProfileForm formData={formData} setFormData={setFormData} />
       </div>
     </div>
   );
@@ -75,17 +61,30 @@ export default function Details() {
 
 interface propsTypes {
   arr: string[];
+  formData: {
+    name?: string;
+    field?: string;
+    Education?: string;
+    Country?: string;
+    Roles?: string;
+  };
+  setFormData: ({}) => void;
+  field: string;
 }
 
 export function SelectDemo(props: propsTypes) {
-  const { arr } = props;
+  const { arr, formData, setFormData, field } = props;
   const temp = arr.map((item: string) => (
     <SelectItem key={item} value={item}>
       {item}
     </SelectItem>
   ));
   return (
-    <Select>
+    <Select
+      onValueChange={(e) => {
+        setFormData({ ...formData, [field]: e });
+      }}
+    >
       <SelectTrigger className="w-[430px]">
         <SelectValue placeholder={arr[0]} />
       </SelectTrigger>
@@ -104,11 +103,28 @@ export function SelectDemo(props: propsTypes) {
   );
 }
 
-export function ProfileForm() {
+interface ProfileProps {
+  name?: string;
+  field?: string;
+  Education?: string;
+  Country?: string;
+  Roles?: string;
+  setFormData: () => void;
+}
+
+export function ProfileForm({ formData, setFormData }: {}) {
   const form = useForm();
+
+  const handleInput = (e: string, field: string) => {
+    setFormData({
+      ...formData,
+      [field]: e,
+    });
+  };
+
   return (
     <Form {...form}>
-      <form className="space-y-8">
+      <form action={() => handleSubmission(formData)} className="space-y-8">
         <FormField
           control={form.control}
           name="username"
@@ -116,24 +132,80 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input className="w-[430px]" placeholder="Name" {...field} />
+                <Input
+                  className="w-[430px]"
+                  placeholder="Name"
+                  {...field}
+                  onChange={(e) => {
+                    handleInput(e.target.value, "name");
+                  }}
+                />
               </FormControl>
               <FormLabel>Education</FormLabel>
               <FormControl>
-                <SelectDemo arr={ed} />
+                <SelectDemo
+                  formData={formData}
+                  setFormData={setFormData}
+                  field={"Education"}
+                  arr={ed}
+                />
+              </FormControl>
+              <FormLabel>Visa Expiry</FormLabel>
+              <FormControl>
+                <Input
+                  type="date"
+                  className="w-[430px]"
+                  placeholder="Name"
+                  {...field}
+                  onChange={(e) => {
+                    handleInput(e.target.value, "visaExpiry");
+                  }}
+                ></Input>
               </FormControl>
               <FormLabel>Country</FormLabel>
               <FormControl>
-                <SelectDemo arr={countries} />
+                <SelectDemo
+                  formData={formData}
+                  setFormData={setFormData}
+                  field={"Country"}
+                  arr={countries}
+                />
+              </FormControl>
+              <FormLabel>Field</FormLabel>
+              <FormControl>
+                <SelectDemo
+                  formData={formData}
+                  setFormData={setFormData}
+                  field={"Field"}
+                  arr={fields}
+                />
               </FormControl>
               <FormLabel>Roles</FormLabel>
               <FormControl>
-                <SelectDemo arr={roles} />
+                <SelectDemo
+                  formData={formData}
+                  setFormData={setFormData}
+                  field={"Role"}
+                  arr={roles}
+                />
               </FormControl>
               <FormLabel>Cv</FormLabel>
               <FormControl>
                 <Input type="file"></Input>
               </FormControl>
+              <div className="pb-4 pt-4">
+                <Button className="mr-4" type="submit">
+                  Submit
+                </Button>
+                <Button
+                  onClick={() => {
+                    window.location.reload();
+                  }}
+                  variant={"secondary"}
+                >
+                  Clear
+                </Button>
+              </div>
             </FormItem>
           )}
         />

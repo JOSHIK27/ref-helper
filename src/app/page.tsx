@@ -6,11 +6,11 @@ import Details from "@/components/detailsForm";
 
 export default async function Home() {
   const user = await currentUser();
+  console.log(user);
   const response = await clerkClient.users.getUserList();
   const details = await CheckForDetails(
     response?.data[0].primaryEmailAddressId
   );
-
   if (!user) {
     redirect("/sign-up");
   }
@@ -33,7 +33,6 @@ async function CheckForDetails(id: params) {
     .find({ emailId: id })
     .toArray();
   await client.close();
-  console.log(collection);
   if (collection.length) return true;
   return false;
 }
