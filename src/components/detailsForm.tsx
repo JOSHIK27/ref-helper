@@ -112,7 +112,7 @@ interface ProfileProps {
   setFormData: () => void;
 }
 
-export function ProfileForm({ formData, setFormData }: {}) {
+export function ProfileForm({ formData, setFormData }) {
   const form = useForm();
 
   const handleInput = (e: string, field: string) => {
