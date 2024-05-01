@@ -11,11 +11,16 @@ export default async function Home() {
   const postsList = await getAllPosts();
 
   const updatedPostList = postsList.map((item) => {
+    console.log(item);
     return {
       role: item.role,
       proof: item.proof,
       imageUrl: item.imageUrl,
       visaExpiry: item.visaExpiry,
+      name: item.name,
+      education: item.education,
+      experience: item.experience,
+      country: item.country,
     };
   });
 

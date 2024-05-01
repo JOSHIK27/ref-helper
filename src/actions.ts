@@ -45,6 +45,10 @@ export async function createPost(formData: newPostProps) {
     emailId: user?.primaryEmailAddressId,
     imageUrl: user?.imageUrl,
     visaExpiry: resp?.visaExpiry,
+    name: resp?.name,
+    education: resp?.Education,
+    experience: resp?.Role,
+    country: resp?.Country,
   });
   await client.close();
   if (acknowledged) {

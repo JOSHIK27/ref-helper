@@ -5,6 +5,10 @@ interface post {
   proof: string;
   imageUrl: string;
   visaExpiry: string;
+  name: string;
+  education: string;
+  experience: string;
+  country: string;
 }
 
 type PropsType = {
@@ -23,6 +27,10 @@ export default function PostCardsList({ postsList }: PropsType) {
             imageUrl={item.imageUrl}
             proof={item.proof}
             visaExpiry={item.visaExpiry}
+            name={item.name}
+            education={item.education}
+            experience={item.experience}
+            country={item.country}
           />
         );
       })}
