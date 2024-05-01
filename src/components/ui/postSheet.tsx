@@ -22,7 +22,7 @@ export default function SheetSide() {
       <SheetTrigger asChild={false}>
         <Input
           placeholder="Ask For A Referral"
-          className="rounded-full h-[48px] mt-4 w-[400px]"
+          className="rounded-full h-[48px] mt-4 w-[250px] lg:w-[400px]"
         ></Input>
       </SheetTrigger>
       <SheetContent side={"bottom"}>
