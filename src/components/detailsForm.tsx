@@ -46,8 +46,16 @@ const fields = [
 ];
 const ed = ["Education Level", "Bachelors", "Masters"];
 
+interface formData {
+  name?: string;
+  field?: string;
+  Education?: string;
+  Country?: string;
+  Roles?: string;
+}
+
 export default function Details() {
-  const [formData, setFormData] = React.useState(null);
+  const [formData, setFormData] = React.useState<formData>({});
 
   return (
     <div className="w-[500px] bg-white shadow-md rounded-md mx-auto mt-12">
@@ -104,15 +112,17 @@ export function SelectDemo(props: propsTypes) {
 }
 
 interface ProfileProps {
-  name?: string;
-  field?: string;
-  Education?: string;
-  Country?: string;
-  Roles?: string;
-  setFormData: () => void;
+  formData: {
+    name?: string;
+    field?: string;
+    Education?: string;
+    Country?: string;
+    Roles?: string;
+  };
+  setFormData: (formData: formData) => void;
 }
 
-export function ProfileForm({ formData, setFormData }) {
+export function ProfileForm({ formData, setFormData }: ProfileProps) {
   const form = useForm();
 
   const handleInput = (e: string, field: string) => {
