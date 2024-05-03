@@ -24,3 +24,26 @@ export function daysFromToday(dateString: string) {
 
   return differenceDays;
 }
+
+export const countries = [
+  "United Kingdom",
+  "United States Of America",
+  "Canada",
+  "Germany",
+  "Australia",
+];
+export const roles = [
+  "Fresher",
+  "More than 1yr",
+  "More than 2yrs",
+  "More than 3yrs",
+  "More than 4yrs",
+];
+export const fields = [
+  "Software Development",
+  "Data Science",
+  "AI",
+  "Finance",
+  "Civil",
+];
+export const ed = ["Education Level", "Bachelors", "Masters"];

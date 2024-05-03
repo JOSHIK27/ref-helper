@@ -12,6 +12,7 @@ interface ProfileProps {
 }
 
 export async function handleSubmission(formData: ProfileProps) {
+  console.log(formData);
   await client.connect();
   const user = await currentUser();
   const database = client.db("referral");

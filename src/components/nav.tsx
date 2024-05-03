@@ -3,6 +3,11 @@ import { Button } from "./ui/button";
 import { SignOutButton, SignInButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export default async function Nav() {
   const user = await currentUser();
@@ -22,12 +27,21 @@ export default async function Nav() {
           Chat
         </Button>
         {user ? (
-          <SignOutButton>
-            <img
-              src={user?.imageUrl}
-              className="rounded-full w-[40px] cursor-pointer"
-            ></img>
-          </SignOutButton>
+          <Popover>
+            <PopoverTrigger className="cursor-pointer" asChild>
+              <img
+                src={user?.imageUrl}
+                className="rounded-full w-[40px] cursor-pointer"
+              ></img>
+            </PopoverTrigger>
+            <PopoverContent className="w-60">
+              <Button className="w-full h-8 mb-[4px]">My Posts</Button>
+              <Button className="w-full h-8 mb-[4px]">My Details</Button>
+              <SignOutButton>
+                <Button className="w-full h-8">SignOut</Button>
+              </SignOutButton>
+            </PopoverContent>
+          </Popover>
         ) : (
           <SignInButton>
             <Button>Login</Button>

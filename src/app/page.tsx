@@ -11,7 +11,6 @@ export default async function Home() {
   const postsList = await getAllPosts();
 
   const updatedPostList = postsList.map((item) => {
-    console.log(item);
     return {
       role: item.role,
       proof: item.proof,
@@ -23,10 +22,11 @@ export default async function Home() {
       country: item.country,
     };
   });
-
+  console.log(response?.data[0].primaryEmailAddressId);
   const details = await CheckForDetails(
     response?.data[0].primaryEmailAddressId
   );
+  console.log(details);
 
   if (!user) {
     redirect("/sign-up");
@@ -53,6 +53,7 @@ async function CheckForDetails(id: params) {
     .find({ emailId: id })
     .toArray();
   await client.close();
+  console.log(collection);
   if (collection.length) return true;
   return false;
 }

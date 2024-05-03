@@ -1,5 +1,4 @@
 import { currentUser } from "@clerk/nextjs/server";
-import { Input } from "./ui/input";
 import SheetSide from "./ui/postSheet";
 export default async function Post() {
   const user = await currentUser();
