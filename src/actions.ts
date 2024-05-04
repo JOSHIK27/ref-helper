@@ -12,7 +12,6 @@ interface ProfileProps {
 }
 
 export async function handleSubmission(formData: ProfileProps) {
-  console.log(formData);
   await client.connect();
   const user = await currentUser();
   const database = client.db("referral");
@@ -46,10 +45,10 @@ export async function createPost(formData: newPostProps) {
     emailId: user?.primaryEmailAddressId,
     imageUrl: user?.imageUrl,
     visaExpiry: resp?.visaExpiry,
-    name: resp?.name,
-    education: resp?.Education,
-    experience: resp?.Role,
-    country: resp?.Country,
+    name: resp?.username,
+    education: resp?.education,
+    experience: resp?.experience,
+    country: resp?.country,
   });
   await client.close();
   if (acknowledged) {

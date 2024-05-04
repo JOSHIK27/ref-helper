@@ -6,6 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function daysFromToday(dateString: string) {
+  if (!dateString) return 0;
   // Parse the input date string
   var parts = dateString.split("-");
   var year = parseInt(parts[0], 10);

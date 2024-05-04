@@ -1,13 +1,12 @@
 import Post from "@/components/post";
-import { currentUser, clerkClient } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { client } from "@/lib/mongodb";
 import Details from "@/components/detailsForm";
-
 import PostCardsList from "@/components/postCardsList";
+
 export default async function Home() {
   const user = await currentUser();
-  const response = await clerkClient.users.getUserList();
   const postsList = await getAllPosts();
 
   const updatedPostList = postsList.map((item) => {
@@ -22,11 +21,8 @@ export default async function Home() {
       country: item.country,
     };
   });
-  console.log(response?.data[0].primaryEmailAddressId);
-  const details = await CheckForDetails(
-    response?.data[0].primaryEmailAddressId
-  );
-  console.log(details);
+
+  const details = await CheckForDetails(user?.primaryEmailAddressId);
 
   if (!user) {
     redirect("/sign-up");
@@ -44,7 +40,7 @@ export default async function Home() {
   );
 }
 
-type params = string | null;
+type params = string | null | undefined;
 async function CheckForDetails(id: params) {
   await client.connect();
   const database = client.db("referral");
@@ -53,7 +49,6 @@ async function CheckForDetails(id: params) {
     .find({ emailId: id })
     .toArray();
   await client.close();
-  console.log(collection);
   if (collection.length) return true;
   return false;
 }

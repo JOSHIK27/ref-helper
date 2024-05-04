@@ -25,7 +25,7 @@ import { handleSubmission } from "@/actions";
 const formSchema = z.object({
   username: z.string().max(10),
   education: z.string(),
-  ["Visa Expiry"]: z.string(),
+  visaExpiry: z.string(),
   country: z.string(),
   field: z.string(),
   // Resume: z.instanceof(FileList).optional(),
@@ -39,7 +39,6 @@ export default function Details() {
   });
   // const fileRef = form.register("Resume");
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     await handleSubmission(values);
   }
 
@@ -107,7 +106,7 @@ export default function Details() {
             />
             <FormField
               control={form.control}
-              name="Visa Expiry"
+              name="visaExpiry"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Visa Expiry</FormLabel>
