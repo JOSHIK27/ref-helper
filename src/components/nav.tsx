@@ -20,11 +20,13 @@ export default async function Nav() {
             Home
           </Button>
         </Link>
+        <Link href={"../chats"}>
+          <Button className="mr-40" variant={"ghost"}>
+            Chats
+          </Button>
+        </Link>
         <Button className="mr-40" variant={"ghost"}>
-          Home
-        </Button>
-        <Button className="mr-40" variant={"ghost"}>
-          Chat
+          Notifications
         </Button>
         {user ? (
           <Popover>
@@ -64,8 +66,8 @@ export function SheetSide() {
             <Link href={"../"}>
               <Button className="my-4 w-full">Home</Button>
             </Link>
-            <Button className="my-4">Home</Button>
             <Button className="my-4">Chat</Button>
+            <Button className="my-4">Notifications</Button>
           </div>
         </SheetContent>
       </Sheet>

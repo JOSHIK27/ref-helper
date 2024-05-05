@@ -10,6 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import Link from "next/link";
 
 interface PostCardProps {
   role: string;
@@ -57,7 +58,9 @@ export function PostCard({
       <Button variant="outline" className="w-11/12 ml-4 mb-4">
         Download CV
       </Button>
-      <Button className="w-11/12 ml-4 mb-4">Refer Me !</Button>
+      <Link href={`../chat/${name}?imageUrl=${imageUrl}`}>
+        <Button className="w-11/12 ml-4 mb-4">Refer Me !</Button>
+      </Link>
     </Card>
   );
 }

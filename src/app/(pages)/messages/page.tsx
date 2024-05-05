@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
 export default function Messages() {
-  const [messageId, setMessageId] = useState(0);
+  const [messagesList, setMessagesList] = useState<string[]>([]);
+  console.log(messagesList);
   useEffect(() => {
     const channel = supabase
       .channel("messages")
@@ -16,8 +17,9 @@ export default function Messages() {
           table: "messages",
         },
         (payload) => {
-          console.log(payload.new.id);
-          setMessageId(payload.new.id);
+          setMessagesList((cur) => {
+            return [...cur, payload.new.message];
+          });
         }
       )
       .subscribe();
@@ -26,5 +28,11 @@ export default function Messages() {
       supabase.removeChannel(channel);
     };
   }, [supabase]);
-  return <>{messageId}</>;
+  return (
+    <>
+      {messagesList?.map((item, index) => {
+        return <h1 key={index}>{item}</h1>;
+      })}
+    </>
+  );
 }
