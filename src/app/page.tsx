@@ -25,7 +25,7 @@ export default async function Home() {
   const details = await CheckForDetails(user?.primaryEmailAddressId);
 
   if (!user) {
-    redirect("/sign-up");
+    redirect("/sign-in");
   }
 
   if (!details) {
