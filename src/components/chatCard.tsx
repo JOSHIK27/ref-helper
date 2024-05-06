@@ -32,7 +32,7 @@ export default function ChatCard({
   user: any;
   params: any;
   imageUrl: string;
-  messages: message[];
+  messages: message[] | null;
 }) {
   const [message, setMessage] = React.useState("");
   console.log(message);
@@ -56,7 +56,7 @@ export default function ChatCard({
         <div className="bg-black h-[0.25px]"></div>
       </CardHeader>
       <CardContent className="h-80 overflow-y-scroll">
-        {messages.map((item, index) => (
+        {messages?.map((item, index) => (
           <div
             key={index}
             className={`flex ${

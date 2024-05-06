@@ -100,9 +100,9 @@ export default function Chat({ params }: { params: { id: string } }) {
           if (payload.new.conversation_id == convoId) {
             setMessagesList((cur) => {
               if (cur) {
-                return [...cur, payload.new];
+                return [...cur, payload.new as message];
               } else {
-                return [payload.new];
+                return [payload.new as message];
               }
             });
           }
