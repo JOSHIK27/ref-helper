@@ -43,8 +43,7 @@ export default function ChatCard({
       from: user.user?.firstName,
       to: params.id,
     });
-    const textElement = document.getElementById("message");
-    textElement.value = "";
+    setMessage("");
   };
 
   return (
@@ -80,6 +79,7 @@ export default function ChatCard({
         <div className="grid w-full gap-2">
           <Textarea
             id="message"
+            value={message}
             placeholder="Type your message here."
             onChange={(e) => setMessage(e.target.value)}
           />
