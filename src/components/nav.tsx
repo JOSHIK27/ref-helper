@@ -66,7 +66,9 @@ export function SheetSide() {
             <Link href={"../"}>
               <Button className="my-4 w-full">Home</Button>
             </Link>
-            <Button className="my-4">Chat</Button>
+            <Link href={"../chats"}>
+              <Button className="my-4">Chat</Button>
+            </Link>
             <Button className="my-4">Notifications</Button>
           </div>
         </SheetContent>

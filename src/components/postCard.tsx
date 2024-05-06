@@ -47,9 +47,7 @@ export function PostCard({
             />
             <CardTitle className="pt-4">{role}</CardTitle>
           </div>
-          <Badge variant="destructive">
-            Visa Expires In: {daysFromToday(visaExpiry)} Days
-          </Badge>
+          <Badge variant="destructive">{daysFromToday(visaExpiry)} Days</Badge>
         </div>
       </CardHeader>
 

@@ -35,7 +35,6 @@ export default function ChatCard({
   messages: message[] | null;
 }) {
   const [message, setMessage] = React.useState("");
-  console.log(message);
 
   const handleMessageInput = async (message: string) => {
     await supabase.from("messages").insert({
@@ -44,8 +43,10 @@ export default function ChatCard({
       from: user.user?.firstName,
       to: params.id,
     });
+    const textElement = document.getElementById("message");
+    textElement.value = "";
   };
-  console.log(user);
+
   return (
     <Card className=" md:w-[600px] mx-auto mt-12">
       <CardHeader>
@@ -76,8 +77,16 @@ export default function ChatCard({
         ))}
       </CardContent>
       <CardFooter className="flex items-end">
-        <Textarea onChange={(e) => setMessage(e.target.value)} />
-        <Button onClick={() => handleMessageInput(message)}>Send</Button>
+        <div className="grid w-full gap-2">
+          <Textarea
+            id="message"
+            placeholder="Type your message here."
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <Button onClick={() => handleMessageInput(message)}>
+            Send message
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );
