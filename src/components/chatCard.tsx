@@ -56,8 +56,9 @@ export default function ChatCard({
         <div className="bg-black h-[0.25px]"></div>
       </CardHeader>
       <CardContent className="h-80 overflow-y-scroll">
-        {messages.map((item) => (
+        {messages.map((item, index) => (
           <div
+            key={index}
             className={`flex ${
               user.user.firstName != item.from ? "flex-row" : "flex-row-reverse"
             } items-center mb-4`}
