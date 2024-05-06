@@ -4,12 +4,22 @@ import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useSearchParams } from "next/navigation";
 import ChatCard from "@/components/chatCard";
+
+interface message {
+  conversation_id: number;
+  created_at: string;
+  from: string;
+  id: number;
+  message: string;
+  to: string;
+}
+
 export default function Chat({ params }: { params: { id: string } }) {
   const [convoId, setConvoId] = useState<number>(0);
-
+  const [messagesList, setMessagesList] = useState<message[]>([]);
   const user = useUser();
   const temp = useSearchParams();
-
+  console.log("once");
   useEffect(() => {
     if (!user.isLoaded) return;
     const allMagic = async () => {
@@ -47,6 +57,12 @@ export default function Chat({ params }: { params: { id: string } }) {
           .eq("person2", params.id);
         if (data && data[0]) {
           setConvoId(data[0].id);
+          const resp = await supabase
+            .from("messages")
+            .select()
+            .eq("conversation_id", data[0].id);
+          const prevMessages: message[] = resp.data;
+          setMessagesList(prevMessages);
         } else {
           const { data, error } = await supabase
             .from("conversations")
@@ -56,6 +72,12 @@ export default function Chat({ params }: { params: { id: string } }) {
           console.log(data);
           if (data && data[0]) {
             setConvoId(data[0].id);
+            const resp = await supabase
+              .from("messages")
+              .select()
+              .eq("conversation_id", data[0].id);
+            const prevMessages: message[] = resp.data;
+            setMessagesList(prevMessages);
           }
         }
       }
@@ -63,18 +85,41 @@ export default function Chat({ params }: { params: { id: string } }) {
     allMagic().catch((err) => {
       alert(err);
     });
-  }, [user]);
+
+    const channel = supabase
+      .channel("messages")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+        },
+        (payload) => {
+          console.log(payload);
+          if (payload.new.conversation_id == convoId) {
+            setMessagesList((cur) => {
+              return [...cur, payload.new];
+            });
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user.isLoaded, params.id, supabase, convoId]);
 
   if (user.isLoaded == false) return <>Loading....</>;
 
-  const handleMessageInput = async (message: string) => {
-    await supabase.from("messages").insert({
-      conversation_id: convoId,
-      message: message,
-      from: user.user?.firstName,
-      to: params.id,
-    });
-  };
-
-  return <ChatCard imageUrl={temp.get("imageUrl") ?? ""} />;
+  return (
+    <ChatCard
+      convoId={convoId}
+      user={user}
+      params={params}
+      imageUrl={temp.get("imageUrl") ?? ""}
+      messages={messagesList}
+    />
+  );
 }
