@@ -16,7 +16,7 @@ interface message {
 
 export default function Chat({ params }: { params: { id: string } }) {
   const [convoId, setConvoId] = useState<number>(0);
-  const [messagesList, setMessagesList] = useState<message[]>([]);
+  const [messagesList, setMessagesList] = useState<message[] | null>([]);
   const user = useUser();
   const temp = useSearchParams();
   console.log("once");
@@ -61,7 +61,7 @@ export default function Chat({ params }: { params: { id: string } }) {
             .from("messages")
             .select()
             .eq("conversation_id", data[0].id);
-          const prevMessages: message[] = resp.data;
+          const prevMessages = resp.data;
           setMessagesList(prevMessages);
         } else {
           const { data, error } = await supabase
@@ -76,7 +76,7 @@ export default function Chat({ params }: { params: { id: string } }) {
               .from("messages")
               .select()
               .eq("conversation_id", data[0].id);
-            const prevMessages: message[] = resp.data;
+            const prevMessages = resp.data;
             setMessagesList(prevMessages);
           }
         }
@@ -99,7 +99,11 @@ export default function Chat({ params }: { params: { id: string } }) {
           console.log(payload);
           if (payload.new.conversation_id == convoId) {
             setMessagesList((cur) => {
-              return [...cur, payload.new];
+              if (cur) {
+                return [...cur, payload.new];
+              } else {
+                return [payload.new];
+              }
             });
           }
         }
