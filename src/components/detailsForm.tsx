@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { countries, roles, fields, ed } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { Buffer } from "buffer";
 import {
   Form,
   FormControl,
@@ -21,14 +22,14 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { handleSubmission } from "@/actions";
+
 const formSchema = z.object({
   username: z.string().max(10),
   education: z.string(),
   visaExpiry: z.string(),
   country: z.string(),
   field: z.string(),
-  // Resume: z.instanceof(FileList).optional(),
+  resume: typeof window === "undefined" ? z.any() : z.instanceof(FileList),
   experience: z.string(),
 });
 
@@ -37,9 +38,26 @@ export default function Details() {
     resolver: zodResolver(formSchema),
     defaultValues: {},
   });
-  // const fileRef = form.register("Resume");
+
+  const fileRef = form.register("resume");
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await handleSubmission(values);
+    const f = values.resume;
+    const bytes = await f[0].arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    fetch("api/detailsForm", {
+      body: JSON.stringify({ ...values, file: buffer }),
+      method: "POST",
+    })
+      .then((resp) => {
+        return resp.json();
+      })
+      .then(({ success }) => {
+        if (success) {
+          window.location.reload();
+        } else {
+          alert("Some Error");
+        }
+      });
   }
 
   return (
@@ -189,9 +207,9 @@ export default function Details() {
                 </FormItem>
               )}
             />
-            {/* <FormField
+            <FormField
               control={form.control}
-              name="Resume"
+              name="resume"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Cv</FormLabel>
@@ -200,7 +218,7 @@ export default function Details() {
                   </FormControl>
                 </FormItem>
               )}
-            /> */}
+            />
             <FormField
               control={form.control}
               name="experience"

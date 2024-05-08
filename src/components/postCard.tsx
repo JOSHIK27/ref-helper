@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import Link from "next/link";
-
+import DownloadCVbtn from "./downloadCVbtn";
 interface PostCardProps {
   role: string;
   proof: string;
@@ -52,10 +52,7 @@ export function PostCard({
       </CardHeader>
 
       <CardContent>{proof}</CardContent>
-
-      <Button variant="outline" className="w-11/12 ml-4 mb-4">
-        Download CV
-      </Button>
+      <DownloadCVbtn />
       <Link href={`../chat/${name}?imageUrl=${imageUrl}`}>
         <Button className="w-11/12 ml-4 mb-4">Refer Me !</Button>
       </Link>
