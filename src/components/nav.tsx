@@ -13,7 +13,7 @@ export default async function Nav() {
   const user = await currentUser();
   return (
     <div className="bg-white shadow-md h-12 flex lg:justify-evenly items-center">
-      <SheetSide />
+      <SheetSide user={user} />
       <div className="hidden lg:flex">
         <Link href={"../"}>
           <Button className="mr-40" variant={"outline"}>
@@ -61,7 +61,7 @@ export default async function Nav() {
   );
 }
 
-export function SheetSide() {
+export function SheetSide({ user }: { user: any }) {
   return (
     <div className="lg:hidden grid grid-cols-2 gap-2">
       <Sheet>
@@ -79,6 +79,32 @@ export function SheetSide() {
             <Link href={"../chats"}>
               <Button className="my-4 w-full">Chat</Button>
             </Link>
+            {user ? (
+              <Popover>
+                <PopoverTrigger className="cursor-pointer" asChild>
+                  <img
+                    src={user?.imageUrl}
+                    className="rounded-full w-[40px] cursor-pointer"
+                  ></img>
+                </PopoverTrigger>
+                <PopoverContent className="w-60">
+                  <Link href={"/myPosts"}>
+                    <Button className="w-full h-8 mb-[4px]">My Posts</Button>
+                  </Link>
+                  <Link href={"/myDetails"}>
+                    <Button className="w-full h-8 mb-[4px]">My Details</Button>
+                  </Link>
+
+                  <SignOutButton>
+                    <Button className="w-full h-8">SignOut</Button>
+                  </SignOutButton>
+                </PopoverContent>
+              </Popover>
+            ) : (
+              <SignInButton>
+                <Button>Login</Button>
+              </SignInButton>
+            )}
           </div>
         </SheetContent>
       </Sheet>
