@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-
+import { client } from "./mongodb";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -47,4 +47,17 @@ export const fields = [
   "Finance",
   "Civil",
 ];
-export const ed = ["Education Level", "Bachelors", "Masters"];
+export const ed = ["Bachelors", "Masters"];
+
+type params = string | null | undefined;
+export async function CheckForDetails(id: params) {
+  await client.connect();
+  const database = client.db("referral");
+  const collection = await database
+    .collection("users")
+    .find({ emailId: id })
+    .toArray();
+  await client.close();
+  if (collection.length) return collection[0];
+  return false;
+}

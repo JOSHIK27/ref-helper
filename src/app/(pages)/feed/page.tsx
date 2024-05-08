@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { client } from "@/lib/mongodb";
 import Details from "@/components/detailsForm";
 import PostCardsList from "@/components/postCardsList";
-
+import { CheckForDetails } from "@/lib/utils";
 export default async function Feed() {
   const user = await currentUser();
   const postsList = await getAllPosts();
@@ -38,19 +38,6 @@ export default async function Feed() {
       <PostCardsList postsList={updatedPostList} />
     </>
   );
-}
-
-type params = string | null | undefined;
-export async function CheckForDetails(id: params) {
-  await client.connect();
-  const database = client.db("referral");
-  const collection = await database
-    .collection("users")
-    .find({ emailId: id })
-    .toArray();
-  await client.close();
-  if (collection.length) return collection[0];
-  return false;
 }
 
 async function getAllPosts() {
