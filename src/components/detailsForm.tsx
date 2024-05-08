@@ -33,10 +33,28 @@ const formSchema = z.object({
   experience: z.string(),
 });
 
-export default function Details({ username }: { username: string }) {
+export default function Details({
+  username,
+  exisitingDetails,
+  mode,
+}: {
+  username?: string;
+  exisitingDetails?: {
+    username: string;
+    education: string;
+    visaExpiry: string;
+    country: string;
+    field: string;
+    experience: string;
+    file: any;
+  };
+  mode: string;
+}) {
+  const [isDisabled, setIsDisabled] = React.useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { username: username },
+    defaultValues:
+      mode == "Submit Details" ? { username: username } : exisitingDetails,
   });
 
   const fileRef = form.register("resume");
@@ -44,20 +62,40 @@ export default function Details({ username }: { username: string }) {
     const f = values.resume;
     const bytes = await f[0].arrayBuffer();
     const buffer = Buffer.from(bytes);
-    fetch("api/detailsForm", {
-      body: JSON.stringify({ ...values, file: buffer }),
-      method: "POST",
-    })
-      .then((resp) => {
-        return resp.json();
+    if (typeof window != undefined) setIsDisabled(true);
+    if (mode == "Submit Form") {
+      fetch("api/detailsForm", {
+        body: JSON.stringify({ ...values, file: buffer }),
+        method: "POST",
       })
-      .then(({ success }) => {
-        if (success) {
-          window.location.reload();
-        } else {
-          alert("Some Error");
-        }
-      });
+        .then((resp) => {
+          return resp.json();
+        })
+        .then(({ success }) => {
+          setIsDisabled(false);
+          if (success) {
+            window.location.reload();
+          } else {
+            alert("Some Error");
+          }
+        });
+    } else {
+      fetch("api/detailsForm", {
+        body: JSON.stringify({ ...values, file: buffer }),
+        method: "PUT",
+      })
+        .then((resp) => {
+          return resp.json();
+        })
+        .then(({ success }) => {
+          setIsDisabled(false);
+          if (success) {
+            window.location.reload();
+          } else {
+            alert("Some Error");
+          }
+        });
+    }
   }
 
   return (
@@ -77,7 +115,11 @@ export default function Details({ username }: { username: string }) {
                       <Input
                         className="w-[430px]"
                         placeholder="Name"
-                        value={username}
+                        value={
+                          mode == "Submit Details"
+                            ? username
+                            : exisitingDetails?.username
+                        }
                         disabled={true}
                         // {...field}
                       />
@@ -255,8 +297,8 @@ export default function Details({ username }: { username: string }) {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
-              Submit
+            <Button disabled={isDisabled} type="submit" className="w-full">
+              {mode}
             </Button>
           </form>
         </Form>

@@ -9,6 +9,7 @@ interface post {
   education: string;
   experience: string;
   country: string;
+  type: string;
 }
 
 type PropsType = {
@@ -31,6 +32,7 @@ export default function PostCardsList({ postsList }: PropsType) {
             education={item.education}
             experience={item.experience}
             country={item.country}
+            type={item.type}
           />
         );
       })}

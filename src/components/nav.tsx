@@ -30,9 +30,6 @@ export default async function Nav() {
             Chats
           </Button>
         </Link>
-        <Button className="mr-40" variant={"outline"}>
-          Notifications
-        </Button>
         {user ? (
           <Popover>
             <PopoverTrigger className="cursor-pointer" asChild>
@@ -42,8 +39,13 @@ export default async function Nav() {
               ></img>
             </PopoverTrigger>
             <PopoverContent className="w-60">
-              <Button className="w-full h-8 mb-[4px]">My Posts</Button>
-              <Button className="w-full h-8 mb-[4px]">My Details</Button>
+              <Link href={"/myPosts"}>
+                <Button className="w-full h-8 mb-[4px]">My Posts</Button>
+              </Link>
+              <Link href={"/myDetails"}>
+                <Button className="w-full h-8 mb-[4px]">My Details</Button>
+              </Link>
+
               <SignOutButton>
                 <Button className="w-full h-8">SignOut</Button>
               </SignOutButton>
@@ -77,7 +79,6 @@ export function SheetSide() {
             <Link href={"../chats"}>
               <Button className="my-4 w-full">Chat</Button>
             </Link>
-            <Button className="my-4">Notifications</Button>
           </div>
         </SheetContent>
       </Sheet>

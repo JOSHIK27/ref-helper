@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useSearchParams } from "next/navigation";
 import ChatCard from "@/components/chatCard";
+import { useToast } from "@/components/ui/use-toast";
 
 interface message {
   conversation_id: number;
@@ -15,18 +16,18 @@ interface message {
 }
 
 export default function Chat({ params }: { params: { id: string } }) {
+  const { toast } = useToast();
   const [convoId, setConvoId] = useState<number>(0);
   const [messagesList, setMessagesList] = useState<message[] | null>([]);
   const user = useUser();
   const temp = useSearchParams();
-
   useEffect(() => {
     if (!user.isLoaded) return;
+    let temp_convoId: Number;
     const allMagic = async () => {
-      const { data, error } = await supabase.from("conversations").select();
-      if (error) throw error;
+      const { data } = await supabase.from("conversations").select();
       let rowFound = false;
-      data.forEach((row) => {
+      data?.forEach((row) => {
         if (
           (row.person1 == params.id && row.person2 == user.user?.firstName) ||
           (row.person2 == params.id && row.person1 == user.user?.firstName)
@@ -34,6 +35,7 @@ export default function Chat({ params }: { params: { id: string } }) {
           rowFound = true;
         }
       });
+
       if (!rowFound) {
         await supabase.from("conversations").insert({
           person1: user.user?.firstName,
@@ -47,6 +49,7 @@ export default function Chat({ params }: { params: { id: string } }) {
           .eq("person1", user.user?.firstName)
           .eq("person2", params.id);
         if (data) {
+          temp_convoId = data[0].id;
           setConvoId(data[0].id);
         }
       } else {
@@ -56,6 +59,7 @@ export default function Chat({ params }: { params: { id: string } }) {
           .eq("person1", user.user?.firstName)
           .eq("person2", params.id);
         if (data && data[0]) {
+          temp_convoId = data[0].id;
           setConvoId(data[0].id);
           const resp = await supabase
             .from("messages")
@@ -69,8 +73,8 @@ export default function Chat({ params }: { params: { id: string } }) {
             .select()
             .eq("person2", user.user?.firstName)
             .eq("person1", params.id);
-          console.log(data);
           if (data && data[0]) {
+            temp_convoId = data[0].id;
             setConvoId(data[0].id);
             const resp = await supabase
               .from("messages")
@@ -82,38 +86,37 @@ export default function Chat({ params }: { params: { id: string } }) {
         }
       }
     };
-    allMagic().catch((err) => {
-      alert(err);
-    });
-
-    const channel = supabase
-      .channel("messages")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "messages",
-        },
-        (payload) => {
-          console.log(payload);
-          if (payload.new.conversation_id == convoId) {
-            setMessagesList((cur) => {
-              if (cur) {
-                return [...cur, payload.new as message];
-              } else {
-                return [payload.new as message];
+    let channel: any;
+    allMagic()
+      .then(() => {
+        channel = supabase
+          .channel("messages")
+          .on(
+            "postgres_changes",
+            {
+              event: "INSERT",
+              schema: "public",
+              table: "messages",
+            },
+            (payload) => {
+              console.log(payload);
+              if (payload.new.conversation_id == temp_convoId) {
+                setMessagesList((cur) => {
+                  if (cur) {
+                    return [...cur, payload.new as message];
+                  } else {
+                    return [payload.new as message];
+                  }
+                });
               }
-            });
-          }
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [user.isLoaded, params.id, supabase, convoId]);
+            }
+          )
+          .subscribe();
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }, [user.isLoaded, params.id]);
 
   if (user.isLoaded == false) return <>Loading....</>;
 

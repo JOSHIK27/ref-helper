@@ -21,6 +21,7 @@ interface PostCardProps {
   education: string;
   experience: string;
   country: string;
+  type: string;
 }
 
 export function PostCard({
@@ -32,6 +33,7 @@ export function PostCard({
   education,
   experience,
   country,
+  type,
 }: PostCardProps) {
   return (
     <Card className="bg-white w-[400px] lg:w-[550px] rounded-lg mx-auto mt-4">
@@ -52,10 +54,18 @@ export function PostCard({
       </CardHeader>
 
       <CardContent>{proof}</CardContent>
-      <DownloadCVbtn />
-      <Link href={`../chat/${name}?imageUrl=${imageUrl}`}>
-        <Button className="w-11/12 ml-4 mb-4">Refer Me !</Button>
-      </Link>
+
+      {type == "Delete" && (
+        <Button className="w-11/12 ml-4 mb-4">Delete</Button>
+      )}
+      {type == "Post" && (
+        <>
+          <DownloadCVbtn />
+          <Link href={`../chat/${name}?imageUrl=${imageUrl}`}>
+            <Button className="w-11/12 ml-4 mb-4">Refer Me !</Button>
+          </Link>
+        </>
+      )}
     </Card>
   );
 }

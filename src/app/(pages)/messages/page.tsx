@@ -5,7 +5,6 @@ import { supabase } from "@/lib/supabase";
 
 export default function Messages() {
   const [messagesList, setMessagesList] = useState<string[]>([]);
-  console.log(messagesList);
   useEffect(() => {
     const channel = supabase
       .channel("messages")

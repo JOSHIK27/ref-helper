@@ -1,15 +1,14 @@
-import Post from "@/components/post";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { client } from "@/lib/mongodb";
-import Details from "@/components/detailsForm";
+import Post from "@/components/post";
 import PostCardsList from "@/components/postCardsList";
+import { client } from "@/lib/mongodb";
 
-export default async function Feed() {
+export default async function Page() {
   const user = await currentUser();
   const postsList = await getAllPosts();
 
-  const updatedPostList = postsList.map((item) => {
+  const temp = postsList.map((item) => {
     return {
       role: item.role,
       proof: item.proof,
@@ -19,39 +18,23 @@ export default async function Feed() {
       education: item.education,
       experience: item.experience,
       country: item.country,
-      type: "Post",
+      type: "Delete",
     };
   });
-
-  const details = await CheckForDetails(user?.primaryEmailAddressId);
+  const updatedPostList = temp.filter((item) => {
+    if (item.name == user?.firstName) return true;
+    return false;
+  });
 
   if (!user) {
     redirect("/sign-in");
   }
 
-  if (!details) {
-    return <Details username={user.firstName ?? ""} mode="Submit Details" />;
-  }
-
   return (
     <>
-      <Post />
       <PostCardsList postsList={updatedPostList} />
     </>
   );
-}
-
-type params = string | null | undefined;
-async function CheckForDetails(id: params) {
-  await client.connect();
-  const database = client.db("referral");
-  const collection = await database
-    .collection("users")
-    .find({ emailId: id })
-    .toArray();
-  await client.close();
-  if (collection.length) return collection[0];
-  return false;
 }
 
 async function getAllPosts() {

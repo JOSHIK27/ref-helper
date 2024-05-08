@@ -8,13 +8,13 @@ export default async function Chats() {
   let temp = true;
   const user = await currentUser();
   let resp = await supabase
-    .from("conversations")
+    .from("conversation_summary")
     .select()
     .eq("person1", user?.firstName);
 
   if (!resp.data?.length) {
     resp = await supabase
-      .from("conversations")
+      .from("conversation_summary")
       .select()
       .eq("person2", user?.firstName);
     temp = false;

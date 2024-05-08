@@ -65,7 +65,9 @@ export default function ChatCard({
           >
             <img
               src={
-                user.user.firstName != item.from ? imageUrl : user.user.imageUrl
+                user.user?.firstName != item.from
+                  ? imageUrl
+                  : user.user.imageUrl
               }
               className={`rounded-full w-[25px] cursor-pointer ${
                 user.user.firstName != item.from ? "ml-4" : "mr-4"
