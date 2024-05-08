@@ -116,6 +116,9 @@ export default function Chat({ params }: { params: { id: string } }) {
       .catch((err) => {
         alert(err);
       });
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [user.isLoaded, params.id]);
 
   if (user.isLoaded == false) return <>Loading....</>;

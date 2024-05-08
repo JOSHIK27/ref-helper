@@ -7,7 +7,7 @@ export default function Notifications() {
   const { toast } = useToast();
   const user = useUser();
   useEffect(() => {
-    supabase
+    const channel = supabase
       .channel("messages")
       .on(
         "postgres_changes",
@@ -30,6 +30,9 @@ export default function Notifications() {
         }
       )
       .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   return <></>;
