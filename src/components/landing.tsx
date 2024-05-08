@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function LandingUI() {
   return (
     <>
-      <div className="mb-8 mt-16 font-inter text-center font-extrabold text-[140px] bg-clip-text text-transparent bg-gradient-to-r from-[#474747] to-black">
+      <div className="mb-8 mt-24 font-inter text-center font-extrabold text-[90px] bg-clip-text text-transparent bg-gradient-to-r from-[#686565] to-black">
         Referral Connect
       </div>
       <div className="font-sans text-gray text-center font-light text-[30px] text-gray-500">

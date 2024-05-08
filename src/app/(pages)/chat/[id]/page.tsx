@@ -19,7 +19,7 @@ export default function Chat({ params }: { params: { id: string } }) {
   const [messagesList, setMessagesList] = useState<message[] | null>([]);
   const user = useUser();
   const temp = useSearchParams();
-  console.log("once");
+
   useEffect(() => {
     if (!user.isLoaded) return;
     const allMagic = async () => {

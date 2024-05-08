@@ -33,10 +33,10 @@ const formSchema = z.object({
   experience: z.string(),
 });
 
-export default function Details() {
+export default function Details({ username }: { username: string }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues: { username: username },
   });
 
   const fileRef = form.register("resume");
@@ -77,7 +77,9 @@ export default function Details() {
                       <Input
                         className="w-[430px]"
                         placeholder="Name"
-                        {...field}
+                        value={username}
+                        disabled={true}
+                        // {...field}
                       />
                     </FormControl>
                   </FormItem>
@@ -253,7 +255,7 @@ export default function Details() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="mr-4">
+            <Button type="submit" className="w-full">
               Submit
             </Button>
           </form>

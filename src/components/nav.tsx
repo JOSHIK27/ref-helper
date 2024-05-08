@@ -16,16 +16,21 @@ export default async function Nav() {
       <SheetSide />
       <div className="hidden lg:flex">
         <Link href={"../"}>
-          <Button className="mr-40" variant={"ghost"}>
+          <Button className="mr-40" variant={"outline"}>
             Home
           </Button>
         </Link>
+        <Link href={"../feed"}>
+          <Button className="mr-40" variant={"outline"}>
+            Feed
+          </Button>
+        </Link>
         <Link href={"../chats"}>
-          <Button className="mr-40" variant={"ghost"}>
+          <Button className="mr-40" variant={"outline"}>
             Chats
           </Button>
         </Link>
-        <Button className="mr-40" variant={"ghost"}>
+        <Button className="mr-40" variant={"outline"}>
           Notifications
         </Button>
         {user ? (
@@ -66,8 +71,11 @@ export function SheetSide() {
             <Link href={"../"}>
               <Button className="my-4 w-full">Home</Button>
             </Link>
+            <Link href={"../feed"}>
+              <Button className="my-4 w-full">Feed</Button>
+            </Link>
             <Link href={"../chats"}>
-              <Button className="my-4">Chat</Button>
+              <Button className="my-4 w-full">Chat</Button>
             </Link>
             <Button className="my-4">Notifications</Button>
           </div>

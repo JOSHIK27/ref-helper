@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { client } from "@/lib/mongodb";
 import Details from "@/components/detailsForm";
 import PostCardsList from "@/components/postCardsList";
+
 export default async function Feed() {
   const user = await currentUser();
   const postsList = await getAllPosts();
@@ -28,7 +29,7 @@ export default async function Feed() {
   }
 
   if (!details) {
-    return <Details />;
+    return <Details username={user.firstName ?? ""} />;
   }
 
   return (

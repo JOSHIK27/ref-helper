@@ -21,17 +21,19 @@ export default async function Chats() {
   }
   console.log(resp);
   return (
-    <Card className="w-[400px] mx-auto mt-4">
+    <Card className="w-[400px] lg:w-[450px] mx-auto mt-4">
       {resp?.data?.map((item, index) => {
         return (
           <>
-            <div key={index} className="flex items-center justify-between px-8">
+            <div key={index} className="flex justify-between py-4 px-8">
               <div className="flex items-center">
                 <img
                   src={temp ? item?.p2ImageUrl : item?.p1ImageUrl}
-                  className="rounded-full w-[48px] mt-4"
+                  className="rounded-full w-[40px]"
                 ></img>
-                <div>{temp ? item.person2 : item.person1}</div>
+                <div className="ml-4 font-serif font-semibold">
+                  {temp ? item.person2 : item.person1}
+                </div>
               </div>
               <Link
                 href={`../chat/${temp ? item.person2 : item.person1}?imageUrl=${
@@ -41,7 +43,7 @@ export default async function Chats() {
                 <Button className="w-11/12 ml-4">Message</Button>
               </Link>
             </div>
-            <br />
+
             <div className="bg-black border-[0.25px]"></div>
           </>
         );
