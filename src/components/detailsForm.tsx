@@ -22,6 +22,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   username: z.string().max(10),
@@ -51,19 +52,19 @@ export default function Details({
   mode: string;
 }) {
   const [isDisabled, setIsDisabled] = React.useState(false);
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues:
       mode == "Submit Details" ? { username: username } : exisitingDetails,
   });
-
   const fileRef = form.register("resume");
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const f = values.resume;
     const bytes = await f[0].arrayBuffer();
     const buffer = Buffer.from(bytes);
-    if (typeof window != undefined) setIsDisabled(true);
-    if (mode == "Submit Form") {
+    console.log(mode);
+    if (mode == "Submit Details") {
       fetch("api/detailsForm", {
         body: JSON.stringify({ ...values, file: buffer }),
         method: "POST",
@@ -74,7 +75,7 @@ export default function Details({
         .then(({ success }) => {
           setIsDisabled(false);
           if (success) {
-            window.location.reload();
+            router.push("/feed");
           } else {
             alert("Some Error");
           }
@@ -90,7 +91,7 @@ export default function Details({
         .then(({ success }) => {
           setIsDisabled(false);
           if (success) {
-            window.location.reload();
+            router.push("/feed");
           } else {
             alert("Some Error");
           }

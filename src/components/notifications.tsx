@@ -18,11 +18,6 @@ export default function Notifications() {
           table: "messages",
         },
         (payload) => {
-          // toast({
-          //   title: `Message From ${payload.new.from}`,
-          //   description: payload.new.message,
-          // });
-          console.log(payload.new, user);
           if (user.isLoaded && user.user?.firstName == payload.new.to) {
             toast({
               title: `Message From ${payload.new.from}`,
