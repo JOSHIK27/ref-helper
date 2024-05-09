@@ -64,6 +64,7 @@ export default function Details({
     const bytes = await f[0].arrayBuffer();
     const buffer = Buffer.from(bytes);
     console.log(mode);
+    if (typeof document != undefined) setIsDisabled(true);
     if (mode == "Submit Details") {
       fetch("api/detailsForm", {
         body: JSON.stringify({ ...values, file: buffer }),
@@ -74,11 +75,7 @@ export default function Details({
         })
         .then(({ success }) => {
           setIsDisabled(false);
-          if (success) {
-            router.push("/feed");
-          } else {
-            alert("Some Error");
-          }
+          window.location.reload();
         });
     } else {
       fetch("api/detailsForm", {
@@ -90,11 +87,7 @@ export default function Details({
         })
         .then(({ success }) => {
           setIsDisabled(false);
-          if (success) {
-            router.push("/feed");
-          } else {
-            alert("Some Error");
-          }
+          window.location.reload();
         });
     }
   }
