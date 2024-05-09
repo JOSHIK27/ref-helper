@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useSearchParams } from "next/navigation";
 import ChatCard from "@/components/chatCard";
-import { useToast } from "@/components/ui/use-toast";
 
 interface message {
   conversation_id: number;
@@ -16,7 +15,6 @@ interface message {
 }
 
 export default function Chat({ params }: { params: { id: string } }) {
-  const { toast } = useToast();
   const [convoId, setConvoId] = useState<number>(0);
   const [messagesList, setMessagesList] = useState<message[] | null>([]);
   const user = useUser();
@@ -119,7 +117,7 @@ export default function Chat({ params }: { params: { id: string } }) {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [user.isLoaded, params.id]);
+  }, [user.isLoaded, params.id, supabase]);
 
   if (user.isLoaded == false) return <>Loading....</>;
 
