@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PaperPlaneIcon, DownloadIcon } from "@radix-ui/react-icons";
 import {
   Popover,
   PopoverContent,
@@ -62,7 +63,9 @@ export function PostCard({
         <>
           <DownloadCVbtn />
           <Link href={`../chat/${name}?imageUrl=${imageUrl}`}>
-            <Button className="w-11/12 ml-4 mb-4">Refer Me !</Button>
+            <Button className="w-11/12 ml-4 mb-4">
+              Refer Me ! <PaperPlaneIcon className="ml-4" />
+            </Button>
           </Link>
         </>
       )}

@@ -1,6 +1,8 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { Button } from "./ui/button";
+import { HomeIcon, ChatBubbleIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import { SignOutButton, SignInButton } from "@clerk/nextjs";
+
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -68,20 +70,28 @@ export function SheetSide({ user }: { user: any }) {
         <SheetTrigger asChild>
           <Button variant="outline">Menu</Button>
         </SheetTrigger>
-        <SheetContent side={"left"}>
+        <SheetContent side={"left"} className="">
           <div className="flex flex-col">
             <Link href={"../"}>
-              <Button className="my-4 w-full">Home</Button>
+              <Button className="w-full my-4">
+                Home
+                <HomeIcon className="ml-4" />
+              </Button>
             </Link>
             <Link href={"../feed"}>
-              <Button className="my-4 w-full">Feed</Button>
+              <Button className="my-4 w-full">
+                Feed
+                <Pencil1Icon className="ml-4" />
+              </Button>
             </Link>
             <Link href={"../chats"}>
-              <Button className="my-4 w-full">Chat</Button>
+              <Button className="my-4 w-full">
+                Chat <ChatBubbleIcon className="ml-4" />
+              </Button>
             </Link>
             {user ? (
               <Popover>
-                <PopoverTrigger className="cursor-pointer" asChild>
+                <PopoverTrigger className="cursor-pointer mx-auto" asChild>
                   <img
                     src={user?.imageUrl}
                     className="rounded-full w-[40px] cursor-pointer"

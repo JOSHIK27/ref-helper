@@ -27,7 +27,6 @@ export default function Notifications() {
         }
       )
       .subscribe();
-    console.log(channel);
     return () => {
       supabase.removeChannel(channel);
     };

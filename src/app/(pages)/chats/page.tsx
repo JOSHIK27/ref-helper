@@ -19,7 +19,6 @@ export default async function Chats() {
       .eq("person2", user?.firstName);
     temp = false;
   }
-  console.log(resp);
   return (
     <Card className="w-[400px] lg:w-[450px] mx-auto mt-4">
       {resp?.data?.map((item, index) => {

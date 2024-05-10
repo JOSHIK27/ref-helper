@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-
+import { DownloadIcon } from "@radix-ui/react-icons";
 export default function DownloadCVbtn() {
   const [details, setDetails] = useState<any>();
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function DownloadCVbtn() {
       variant="outline"
       className="w-11/12 ml-4 mb-4"
     >
-      Download
+      Download <DownloadIcon className="ml-4" />
     </Button>
   );
 }

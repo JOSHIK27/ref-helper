@@ -2,9 +2,9 @@
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import ChatCard from "@/components/chatCard";
-
+import { Skeleton } from "@/components/ui/skeleton";
 interface message {
   conversation_id: number;
   created_at: string;
@@ -18,6 +18,7 @@ export default function Chat({ params }: { params: { id: string } }) {
   const [convoId, setConvoId] = useState<number>(0);
   const [messagesList, setMessagesList] = useState<message[] | null>([]);
   const user = useUser();
+  const router = useRouter();
   const temp = useSearchParams();
   useEffect(() => {
     if (!user.isLoaded) return;
@@ -97,7 +98,6 @@ export default function Chat({ params }: { params: { id: string } }) {
               table: "messages",
             },
             (payload) => {
-              console.log(payload);
               if (payload.new.conversation_id == temp_convoId) {
                 setMessagesList((cur) => {
                   if (cur) {
@@ -119,7 +119,10 @@ export default function Chat({ params }: { params: { id: string } }) {
     };
   }, [user.isLoaded, params.id, supabase]);
 
-  if (user.isLoaded == false) return <>Loading....</>;
+  if (user.isSignedIn == false) {
+    router.push("/sign-in");
+  }
+  if (user.isLoaded == false) return <Skeleton />;
 
   return (
     <ChatCard

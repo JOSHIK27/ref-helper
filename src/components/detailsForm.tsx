@@ -62,7 +62,6 @@ export default function Details({
     const f = values.resume;
     const bytes = await f[0].arrayBuffer();
     const buffer = Buffer.from(bytes);
-    console.log(mode);
     if (typeof document != undefined) setIsDisabled(true);
     if (mode == "Submit Details") {
       fetch("api/detailsForm", {
