@@ -1,10 +1,12 @@
 import { Button } from "./ui/button";
 import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
+import Footer from "./footer";
 import Link from "next/link";
+import LandingBody from "./landingBody";
 export default function LandingUI() {
   return (
     <>
-      <div className="mb-8 mt-24 font-inter text-center font-extrabold text-[90px] bg-clip-text text-transparent bg-gradient-to-r from-[#686565] to-black">
+      <div className="mb-8 mt-24 font-inter text-center font-extrabold text-[120px] bg-clip-text text-transparent bg-gradient-to-r from-[#686565] to-black">
         Referral Connect
       </div>
       <div className="font-sans text-gray text-center font-light text-[30px] text-gray-500">
@@ -26,6 +28,8 @@ export default function LandingUI() {
           </Button>
         </Link>
       </div>
+      <LandingBody />
+      <Footer />
     </>
   );
 }

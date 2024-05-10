@@ -52,7 +52,6 @@ export default function Details({
   mode: string;
 }) {
   const [isDisabled, setIsDisabled] = React.useState(false);
-  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues:
