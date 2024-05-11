@@ -30,11 +30,7 @@ export default async function Page() {
     redirect("/sign-in");
   }
 
-  return (
-    <>
-      <PostCardsList postsList={updatedPostList} />
-    </>
-  );
+  return <>{/* <PostCardsList postsList={updatedPostList} /> */}</>;
 }
 
 async function getAllPosts() {
