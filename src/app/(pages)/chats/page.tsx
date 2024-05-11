@@ -20,7 +20,7 @@ export default async function Chats() {
     temp = false;
   }
   return (
-    <Card className="w-[400px] lg:w-[450px] mx-auto mt-4">
+    <Card className="w-[400px] lg:w-[450px] mx-auto mt-20">
       {resp?.data?.map((item, index) => {
         return (
           <>

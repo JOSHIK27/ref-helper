@@ -59,6 +59,7 @@ export function PostCard({
       {type == "Delete" && (
         <Button className="w-11/12 ml-4 mb-4">Delete</Button>
       )}
+
       {type == "Post" && (
         <>
           <DownloadCVbtn />

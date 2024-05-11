@@ -14,7 +14,7 @@ import {
 export default async function Nav() {
   const user = await currentUser();
   return (
-    <div className="bg-white shadow-md h-12 flex lg:justify-evenly items-center">
+    <div className="bg-white fixed z-50 top-0 w-full shadow-md h-12 flex lg:justify-evenly items-center">
       <SheetSide user={user} />
       <div className="hidden lg:flex">
         <Link href={"../"}>

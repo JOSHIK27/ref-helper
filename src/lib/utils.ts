@@ -48,3 +48,18 @@ export const fields = [
   "Civil",
 ];
 export const ed = ["Bachelors", "Masters"];
+
+export function getUniquePropertyValues(array: any, property: any) {
+  const uniqueValues: any[] = [];
+  const uniqueSet = new Set(); // Using Set to ensure uniqueness
+
+  array?.forEach((obj: any) => {
+    const value = obj[property];
+    if (!uniqueSet.has(value)) {
+      uniqueSet.add(value);
+      uniqueValues.push(value);
+    }
+  });
+
+  return uniqueValues;
+}

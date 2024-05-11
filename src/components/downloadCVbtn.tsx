@@ -9,10 +9,16 @@ export default function DownloadCVbtn() {
       method: "GET",
     })
       .then((resp) => {
+        if (!resp.ok) {
+          throw new Error("Network response was not ok");
+        }
         return resp.json();
       })
       .then(({ details }) => {
         setDetails(details);
+      })
+      .catch((error) => {
+        console.error("Error fetching user details:", error);
       });
   }, []);
 
@@ -34,7 +40,8 @@ export default function DownloadCVbtn() {
       variant="outline"
       className="w-11/12 ml-4 mb-4"
     >
-      Download <DownloadIcon className="ml-4" />
+      Download CV
+      <DownloadIcon className="ml-4" />
     </Button>
   );
 }
