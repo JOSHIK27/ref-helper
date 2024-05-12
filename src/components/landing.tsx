@@ -6,7 +6,7 @@ import LandingBody from "./landingBody";
 export default function LandingUI() {
   return (
     <>
-      <div className="mb-8 mt-40 font-inter text-center font-extrabold text-[120px] bg-clip-text text-transparent bg-gradient-to-r from-[#686565] to-black">
+      <div className="mb-8 mt-40 font-inter text-center font-extrabold text-[120px] bg-clip-text text-transparent bg-gradient-to-b from-slate-800 to-stone-500">
         Referral Connect
       </div>
       <div className="font-sans text-gray text-center font-light text-[30px] text-gray-500">
