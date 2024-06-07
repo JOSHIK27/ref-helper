@@ -68,7 +68,9 @@ export function SheetSide({ user }: { user: any }) {
     <div className="lg:hidden grid grid-cols-2 gap-2">
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="outline">Menu</Button>
+          <Button variant="outline" className="ml-2">
+            Menu
+          </Button>
         </SheetTrigger>
         <SheetContent side={"left"} className="">
           <div className="flex flex-col">

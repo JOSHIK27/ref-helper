@@ -7,16 +7,16 @@ export default function LandingUI() {
   return (
     <>
       <section>
-        <div className="mb-8 mt-40 font-inter text-center font-extrabold text-[120px] bg-clip-text text-transparent bg-gradient-to-b from-slate-800 to-stone-500">
+        <div className="mb-8 mt-40 font-inter text-center font-extrabold text-[40px] md:text-[120px] bg-clip-text text-transparent bg-gradient-to-b from-slate-800 to-stone-500">
           Referral Connect
         </div>
-        <div className="font-sans text-gray text-center font-light text-[30px] text-gray-500">
+        <div className="font-sans text-gray text-center font-light text-[20px] md:text-[40px] text-gray-500">
           RISE ABOVE THE{" "}
-          <span className="bg-clip-text font-bold text-transparent bg-gradient-to-r from-[#ac3333] to-[#bc0101]">
+          <span className="bg-clip-text font-bold text-[20px] md:text-[40px] text-transparent bg-gradient-to-r from-[#ac3333] to-[#bc0101]">
             VISA EXPIRY
           </span>
         </div>
-        <div className="font-sans text-gray-500 text-center font-bold text-[40px]">
+        <div className="font-sans text-gray-500 text-center font-bold text-[20px] md:text-[40px]">
           CONNECT WITH PEERS GLOBALLY FOR REFERRALS !
         </div>
         <div className="flex justify-center mt-16">
