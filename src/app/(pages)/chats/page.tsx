@@ -3,10 +3,15 @@ import { currentUser } from "@clerk/nextjs/server";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function Chats() {
   let temp = true;
   const user = await currentUser();
+  if (!user) {
+    redirect("/sign-in");
+  }
+
   let resp = await supabase
     .from("conversation_summary")
     .select()
