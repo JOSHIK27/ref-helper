@@ -88,12 +88,10 @@ export default function Filters() {
   };
 
   return (
-    <Card className=" w-80 fixed ml-12 mt-12 hidden shadow-md lg:inline-block">
+    <Card className="w-80 fixed ml-12 mt-12 hidden shadow-md lg:inline-block bg-white border border-gray-200">
       <div>
-        <div className="flex items-center p-[12px]">
-          <div className="font-semibold text-[#9D5C0D] text-xl mr-[4px]">
-            All Posts
-          </div>
+        <div className="flex items-center p-4 border-b border-gray-200">
+          <div className="font-semibold text-black text-xl mr-2">All Posts</div>
           <Checkbox
             defaultChecked="indeterminate"
             onCheckedChange={(e: boolean) => {
@@ -116,54 +114,48 @@ export default function Filters() {
             }}
           />
         </div>
-        <Separator />
 
-        <div className="p-[12px]">
-          <div className="font-semibold text-[#9D5C0D] text-xl mr-[4px]">
-            Sort By
-          </div>
+        <div className="p-4 border-b border-gray-200">
+          <div className="font-semibold text-black text-xl mb-2">Sort By</div>
           <div className="flex items-center">
             <Checkbox
-              className="mr-[8px]"
+              className="mr-2"
               onCheckedChange={(e: boolean) => setSortByVisaStatus(e)}
             />
-            <span className="text-black font-semibold">Visa Status</span>
+            <span className="text-gray-700">Visa Status</span>
           </div>
         </div>
-        <Separator />
 
-        <div className="p-[12px]">
-          <span className="font-semibold text-[#9D5C0D] text-xl">Role</span>
-          {roles.map((item, index) => {
-            return (
-              <div key={index} className="flex items-center">
-                <Checkbox
-                  id="role"
-                  className="mr-[8px]"
-                  onClick={(e) => handleFilteredRoles(item)}
-                />
-                <span className="text-black font-semibold">{item}</span>
-              </div>
-            );
-          })}
+        <div className="p-4 border-b border-gray-200">
+          <span className="font-semibold text-black text-xl block mb-2">
+            Role
+          </span>
+          {roles.map((item, index) => (
+            <div key={index} className="flex items-center mb-1">
+              <Checkbox
+                id="role"
+                className="mr-2"
+                onClick={() => handleFilteredRoles(item)}
+              />
+              <span className="text-gray-700">{item}</span>
+            </div>
+          ))}
         </div>
-        <Separator />
-        <div className="p-[12px]">
-          <span className="font-semibold text-[#9D5C0D] text-xl">
+
+        <div className="p-4">
+          <span className="font-semibold text-black text-xl block mb-2">
             Experience
           </span>
-          {experience.map((item, index) => {
-            return (
-              <div key={index} className="flex items-center">
-                <Checkbox
-                  id="experience"
-                  className="mr-[8px]"
-                  onClick={(e) => handleFilteredExperience(item)}
-                />
-                <span className="text-black font-semibold">{item}</span>
-              </div>
-            );
-          })}
+          {experience.map((item, index) => (
+            <div key={index} className="flex items-center mb-1">
+              <Checkbox
+                id="experience"
+                className="mr-2"
+                onClick={() => handleFilteredExperience(item)}
+              />
+              <span className="text-gray-700">{item}</span>
+            </div>
+          ))}
         </div>
       </div>
     </Card>

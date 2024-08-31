@@ -5,7 +5,7 @@ import { TwitterLogoIcon } from "@radix-ui/react-icons";
 export default function Footer() {
   return (
     <>
-      <div className="h-40 mt-40 bg-[#252D3D]">
+      <div className="h-40 bg-[#252D3D]">
         <div className="flex justify-evenly pt-20">
           <GitHubLogoIcon
             onClick={() =>

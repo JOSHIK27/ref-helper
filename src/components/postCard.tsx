@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PaperPlaneIcon, DownloadIcon } from "@radix-ui/react-icons";
+import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import {
   Popover,
   PopoverContent,
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/popover";
 import Link from "next/link";
 import DownloadCVbtn from "./downloadCVbtn";
+
 interface PostCardProps {
   role: string;
   proof: string;

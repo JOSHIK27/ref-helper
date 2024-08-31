@@ -12,10 +12,6 @@ interface post {
   type: string;
 }
 
-type PropsType = {
-  postsList: post[];
-};
-
 import { useRecoilValue } from "recoil";
 import { PostCard } from "./postCard";
 export default function PostCardsList() {
