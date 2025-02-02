@@ -98,6 +98,7 @@ export default function Chat({ params }: { params: { id: string } }) {
         }
 
         if (temp_convoId) {
+          console.log("Creating channel", temp_convoId);
           channel = supabase
             .channel("messages")
             .on(
@@ -108,7 +109,9 @@ export default function Chat({ params }: { params: { id: string } }) {
                 table: "messages",
               },
               (payload) => {
-                if (payload.new.conversation_id === temp_convoId) {
+                console.log("New message received", payload.new, temp_convoId);
+                if (payload.new.conversation_id === String(temp_convoId)) {
+                  console.log("New message received", payload.new);
                   setMessagesList((cur) => {
                     if (cur) {
                       return [...cur, payload.new as message];
